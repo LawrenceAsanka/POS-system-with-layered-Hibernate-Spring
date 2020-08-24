@@ -10,18 +10,23 @@ class HibernateUtilTest {
   public static void main(String[] args) {
     SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
     Session session = sessionFactory.openSession();
-    //Transaction tx = null;
+    Transaction tx = null;
 
     System.out.println(session);
 
     session.close();
- /*   try {
-      Transaction transaction = session.beginTransaction();
+    try {
+       tx = session.beginTransaction();
 
 
-    } catch () {
+       tx.commit();
+    } catch (Throwable t) {
+      t.printStackTrace();
+      tx.rollback();
     }finally {
 
-    }*/
+      session.close();
+      sessionFactory.close();
+    }
   }
 }
