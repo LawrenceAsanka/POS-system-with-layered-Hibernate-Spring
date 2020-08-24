@@ -10,22 +10,29 @@ import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 
 import entity.Customer;
+import entity.Item;
+import entity.Order;
+import entity.OrderDetail;
 
 public class HibernateUtil {
 
-  private static SessionFactory sessionFactory= buildSessionFactory();
+  private static final SessionFactory sessionFactory = buildSessionFactory();
 
 
-  private static  SessionFactory buildSessionFactory(){
+  private static SessionFactory buildSessionFactory() {
 
     File file = new File("resources/application.properties");
     StandardServiceRegistry standardRegistry = new StandardServiceRegistryBuilder()
         .loadProperties(file)
         .build();
 
-    Metadata metadata = new MetadataSources( standardRegistry )
+    Metadata metadata = new MetadataSources(standardRegistry)
+        .addAnnotatedClass(Customer.class)
+        .addAnnotatedClass(Order.class)
+        .addAnnotatedClass(Item.class)
+        .addAnnotatedClass(OrderDetail.class)
         .getMetadataBuilder()
-        .applyImplicitNamingStrategy( ImplicitNamingStrategyJpaCompliantImpl.INSTANCE )
+        .applyImplicitNamingStrategy(ImplicitNamingStrategyJpaCompliantImpl.INSTANCE)
         .build();
 
     SessionFactory sessionFactory = metadata.getSessionFactoryBuilder()
@@ -35,7 +42,7 @@ public class HibernateUtil {
 
   }
 
-  public static SessionFactory getSessionFactory(){
+  public static SessionFactory getSessionFactory() {
     return sessionFactory;
   }
 
