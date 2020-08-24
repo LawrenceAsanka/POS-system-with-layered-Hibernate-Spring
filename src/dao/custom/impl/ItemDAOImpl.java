@@ -12,13 +12,13 @@ public class ItemDAOImpl implements ItemDAO {
   private Session session;
 
   public String getLastItemCode() throws Exception {
-    return (String) session.createQuery("SELECT i.code FROM Item i ORDER BY i.code DESC").setMaxResults(1).list().get(0);
+    return (String) session.createQuery("SELECT i.code FROM entity.Item i ORDER BY i.code DESC").setMaxResults(1).list().get(0);
 
   }
 
   @Override
   public List<Item> findAll() throws Exception {
-    return session.createQuery("FROM entity.Iem", Item.class).list();
+    return session.createQuery("FROM entity.Item", Item.class).list();
   }
 
   @Override
