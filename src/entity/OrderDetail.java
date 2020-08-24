@@ -3,20 +3,35 @@ package entity;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
+import javax.persistence.EmbeddedId;
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+
+@Entity
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
+@ToString
 public class   OrderDetail implements SuperEntity {
 
+    @EmbeddedId
     private OrderDetailPK orderDetailPK;
     private int qty;
     private BigDecimal unitPrice;
-
-    public OrderDetail() {
-    }
-
-    public OrderDetail(OrderDetailPK orderDetailPK, int qty, BigDecimal unitPrice) {
-        this.orderDetailPK = orderDetailPK;
-        this.qty = qty;
-        this.unitPrice = unitPrice;
-    }
+    @ManyToOne
+    @JoinColumn(name = "orderId",referencedColumnName = "id",insertable = false,updatable = false)
+    private Order order;
+    @ManyToOne
+    @JoinColumn(name = "itemCode",referencedColumnName = "code",insertable = false,updatable = false)
+    private Item item;
 
     public OrderDetail(String orderId, String itemCode, int qty, BigDecimal unitPrice) {
         this.orderDetailPK = new OrderDetailPK(orderId, itemCode);
@@ -24,36 +39,9 @@ public class   OrderDetail implements SuperEntity {
         this.unitPrice = unitPrice;
     }
 
-    public int getQty() {
-        return qty;
-    }
-
-    public void setQty(int qty) {
-        this.qty = qty;
-    }
-
-    public BigDecimal getUnitPrice() {
-        return unitPrice;
-    }
-
-    public void setUnitPrice(BigDecimal unitPrice) {
-        this.unitPrice = unitPrice;
-    }
-
-    public OrderDetailPK getOrderDetailPK() {
-        return orderDetailPK;
-    }
-
-    public void setOrderDetailPK(OrderDetailPK orderDetailPK) {
+    public OrderDetail(OrderDetailPK orderDetailPK, int qty, BigDecimal unitPrice) {
         this.orderDetailPK = orderDetailPK;
-    }
-
-    @Override
-    public String toString() {
-        return "OrderDetail{" +
-                "orderDetailPK=" + orderDetailPK +
-                ", qty=" + qty +
-                ", unitPrice=" + unitPrice +
-                '}';
+        this.qty = qty;
+        this.unitPrice = unitPrice;
     }
 }

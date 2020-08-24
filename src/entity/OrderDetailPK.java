@@ -2,40 +2,25 @@ package entity;
 
 import java.io.Serializable;
 
+import javax.persistence.Embeddable;
+import javax.persistence.Entity;
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+
+@Embeddable
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
+@ToString
 public class OrderDetailPK implements Serializable {
 
     private String orderId;
     private String itemCode;
 
-    public OrderDetailPK() {
-    }
 
-    public OrderDetailPK(String orderId, String itemCode) {
-        this.setOrderId(orderId);
-        this.setItemCode(itemCode);
-    }
-
-    public String getOrderId() {
-        return orderId;
-    }
-
-    public void setOrderId(String orderId) {
-        this.orderId = orderId;
-    }
-
-    public String getItemCode() {
-        return itemCode;
-    }
-
-    public void setItemCode(String itemCode) {
-        this.itemCode = itemCode;
-    }
-
-    @Override
-    public String toString() {
-        return "OrderDetailPK{" +
-                "orderId='" + orderId + '\'' +
-                ", itemCode='" + itemCode + '\'' +
-                '}';
-    }
 }

@@ -1,53 +1,67 @@
 package entity;
 
-import java.io.Serializable;
 import java.sql.Date;
+import java.util.List;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+
+@Entity
+//@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
+@ToString(exclude = "orderDetailList")
+@Table(name = "`Order`")
 public class Order implements SuperEntity {
 
-    private String id;
-    private Date date;
-    private String customerId;
+  @Id
+  private String id;
+  private Date date;
+  @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH})
+  @JoinColumn(name = "customerId", referencedColumnName = "id", nullable = false)
+  private Customer customerId;
+  //by directional
+  @OneToMany(mappedBy = "order", cascade = {CascadeType.PERSIST, CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH})
+  private List<OrderDetail> orderDetailList;
 
-    public Order() {
-    }
+  public Order(String id, Date date, Customer customerId) {
+    this.id = id;
+    this.date = date;
+    this.customerId = customerId;
+  }
 
-    public Order(String id, Date date, String customerId) {
-        this.id = id;
-        this.date = date;
-        this.customerId = customerId;
+  public Order(String id, Date date, Customer customerId, List<OrderDetail> orderDetailList) {
+    this.id = id;
+    this.date = date;
+    this.customerId = customerId;
+    for (OrderDetail orderDetail : orderDetailList) {
+      orderDetail.setOrder(this);
     }
+    this.orderDetailList = orderDetailList;
+  }
 
-    public String getId() {
-        return id;
+    public void setOrderDetailList(List<OrderDetail> orderDetailList) {
+    for (OrderDetail orderDetail : orderDetailList) {
+      orderDetail.setOrder(this);
     }
+    this.orderDetailList = orderDetailList;
+  }
 
-    public void setId(String id) {
-        this.id = id;
-    }
+  public void addOrderDetail(OrderDetail orderDetail) {
+    orderDetail.setOrder(this);
+    this.getOrderDetailList().add(orderDetail);
+  }
 
-    public Date getDate() {
-        return date;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
-    }
-
-    public String getCustomerId() {
-        return customerId;
-    }
-
-    public void setCustomerId(String customerId) {
-        this.customerId = customerId;
-    }
-
-    @Override
-    public String toString() {
-        return "Order{" +
-                "id='" + id + '\'' +
-                ", date=" + date +
-                ", customerId='" + customerId + '\'' +
-                '}';
-    }
 }
