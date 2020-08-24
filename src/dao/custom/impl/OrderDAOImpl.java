@@ -12,7 +12,8 @@ public class OrderDAOImpl implements OrderDAO {
   private Session session;
 
   public String getLastOrderId() throws Exception {
-    return (String) session.createQuery("SELECT o.id FROM entity.Order o ORDER BY id DESC").setMaxResults(1).list().get(0);
+    List list = session.createQuery("SELECT o.id FROM entity.Order o ORDER BY id DESC").setMaxResults(1).list();
+    return list.size() > 0 ? (String) list.get(0) : null;
   }
 
   @Override

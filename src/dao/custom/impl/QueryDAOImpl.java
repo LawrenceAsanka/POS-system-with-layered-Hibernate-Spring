@@ -1,12 +1,7 @@
 package dao.custom.impl;
 
-import dao.CrudUtil;
 import dao.custom.QueryDAO;
 import entity.CustomEntity;
-
-import java.sql.ResultSet;
-
-import javax.xml.transform.Transformer;
 
 import org.hibernate.Session;
 import org.hibernate.transform.Transformers;

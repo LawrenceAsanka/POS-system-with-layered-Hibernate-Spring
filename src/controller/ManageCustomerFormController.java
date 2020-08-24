@@ -141,15 +141,14 @@ public class ManageCustomerFormController implements Initializable {
             btnAddNew_OnAction(event);
         } else {
             CustomerTM selectedItem = tblCustomers.getSelectionModel().getSelectedItem();
-            boolean result = false;
+
             try {
-                result = customerBO.updateCustomer(txtCustomerName.getText(), txtCustomerAddress.getText(), selectedItem.getId());
+             customerBO.updateCustomer(txtCustomerName.getText(), txtCustomerAddress.getText(), selectedItem.getId());
             } catch (Exception e) {
                 e.printStackTrace();
-            }
-            if (!result) {
                 new Alert(Alert.AlertType.ERROR, "Failed to update the customer", ButtonType.OK).show();
             }
+
             tblCustomers.refresh();
             btnAddNew_OnAction(event);
         }
@@ -165,20 +164,20 @@ public class ManageCustomerFormController implements Initializable {
         if (buttonType.get() == ButtonType.YES) {
             CustomerTM selectedItem = tblCustomers.getSelectionModel().getSelectedItem();
 
-            boolean result = false;
+
             try {
-                result = customerBO.deleteCustomer(selectedItem.getId());
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            if (!result){
-                new Alert(Alert.AlertType.ERROR, "Failed to delete the customer", ButtonType.OK).show();
-            }else{
+                customerBO.deleteCustomer(selectedItem.getId());
                 tblCustomers.getItems().remove(selectedItem);
                 tblCustomers.getSelectionModel().clearSelection();
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                new Alert(Alert.AlertType.ERROR, "Failed to delete the customer", ButtonType.OK).show();
+            }
+
             }
         }
-    }
+
 
     @FXML
     private void btnAddNew_OnAction(ActionEvent actionEvent) {
