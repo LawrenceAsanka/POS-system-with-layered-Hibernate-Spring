@@ -9,6 +9,8 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.hibernate.Session;
+
 public class OrderDetailDAOImpl implements OrderDetailDAO {
 
     @Override
@@ -37,18 +39,23 @@ public class OrderDetailDAOImpl implements OrderDetailDAO {
     }
 
     @Override
-    public boolean save(OrderDetail orderDetail) throws Exception {
+    public void save(OrderDetail orderDetail) throws Exception {
         return CrudUtil.execute("INSERT INTO `OrderDetail` VALUES (?,?,?,?)", orderDetail.getOrderDetailPK().getOrderId(),
                 orderDetail.getOrderDetailPK().getItemCode(), orderDetail.getQty(), orderDetail.getUnitPrice());
     }
 
     @Override
-    public boolean update(OrderDetail orderDetail) throws Exception {
+    public void update(OrderDetail orderDetail) throws Exception {
         return CrudUtil.execute("UPDATE OrderDetail SET qty=?, unitPrice=? WHERE orderId=? AND itemCode=?", orderDetail.getQty(), orderDetail.getUnitPrice(), orderDetail.getOrderDetailPK().getOrderId(), orderDetail.getOrderDetailPK().getItemCode());
     }
 
     @Override
-    public boolean delete(OrderDetailPK orderDetailPK) throws Exception {
+    public void delete(OrderDetailPK orderDetailPK) throws Exception {
         return CrudUtil.execute("DELETE FROM `OrderDetail` WHERE orderId=? AND itemCode=?", orderDetailPK.getOrderId(), orderDetailPK.getItemCode());
+    }
+
+    @Override
+    public void setSession(Session session) {
+
     }
 }

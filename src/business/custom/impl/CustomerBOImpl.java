@@ -24,15 +24,15 @@ public class CustomerBOImpl implements CustomerBO {
         return customers;
     }
 
-    public boolean saveCustomer(String id, String name, String address) throws Exception {
+    public void saveCustomer(String id, String name, String address) throws Exception {
         return customerDAO.save(new Customer(id, name, address));
     }
 
-    public boolean deleteCustomer(String customerId) throws Exception {
+    public void deleteCustomer(String customerId) throws Exception {
         return customerDAO.delete(customerId);
     }
 
-    public boolean updateCustomer(String name, String address, String customerId) throws Exception {
+    public void updateCustomer(String name, String address, String customerId) throws Exception {
         return customerDAO.update(new Customer(customerId, name, address));
 
     }

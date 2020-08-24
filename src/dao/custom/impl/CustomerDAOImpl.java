@@ -8,53 +8,44 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.hibernate.Session;
+
 public class CustomerDAOImpl implements CustomerDAO {
 
+    private Session session;
     @Override
     public String getLastCustomerId() throws Exception {
-        ResultSet rst = CrudUtil.execute("SELECT * FROM Customer ORDER BY id DESC LIMIT 1");
-        if (!rst.next()) {
-            return null;
-        } else {
-            return rst.getString(1);
-        }
+        return (String)session.createNativeQuery("SELECT * FROM Customer ORDER BY id DESC LIMIT 1").uniqueResult();
+
     }
 
     @Override
     public List<Customer> findAll() throws Exception {
-        ResultSet rst = CrudUtil.execute("SELECT * FROM Customer");
-        List<Customer> customers = new ArrayList<>();
-        while (rst.next()) {
-            customers.add(new Customer(rst.getString(1),
-                    rst.getString(2),
-                    rst.getString(3)));
-        }
-        return customers;
+        return session.createQuery("FROM Customer",Customer.class).list();
     }
 
     @Override
     public Customer find(String key) throws Exception {
-        ResultSet rst = CrudUtil.execute("SELECT * FROM Customer WHERE id=?", key);
-        if (rst.next()) {
-            return new Customer(rst.getString(1),
-                    rst.getString(2),
-                    rst.getString(3));
-        }
-        return null;
+      return  session.get(Customer.class,key);
     }
 
     @Override
-    public boolean save(Customer customer) throws Exception {
-        return CrudUtil.execute("INSERT INTO Customer VALUES (?,?,?)", customer.getId(), customer.getName(), customer.getAddress());
+    public void save(Customer customer) throws Exception {
+        session.save(customer);
     }
 
     @Override
-    public boolean update(Customer customer) throws Exception {
-        return CrudUtil.execute("UPDATE Customer SET name=?, address=? WHERE id=?", customer.getName(), customer.getAddress(), customer.getId());
+    public void update(Customer customer) throws Exception {
+      session.update(customer);
     }
 
     @Override
-    public boolean delete(String key) throws Exception {
-        return CrudUtil.execute("DELETE FROM Customer WHERE id=?", key);
+    public void delete(String key) throws Exception {
+        session.delete(session.get(Customer.class,key));
+    }
+
+    @Override
+    public void setSession(Session session) {
+        this.session=session;
     }
 }

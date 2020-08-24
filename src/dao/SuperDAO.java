@@ -1,5 +1,7 @@
 package dao;
 
-public interface SuperDAO {
+import org.hibernate.Session;
 
+public interface SuperDAO {
+ public void setSession(Session session);
 }

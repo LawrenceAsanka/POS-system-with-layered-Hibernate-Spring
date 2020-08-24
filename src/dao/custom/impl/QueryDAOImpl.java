@@ -6,6 +6,8 @@ import entity.CustomEntity;
 
 import java.sql.ResultSet;
 
+import org.hibernate.Session;
+
 public class QueryDAOImpl implements QueryDAO {
 
     @Override
@@ -33,5 +35,10 @@ public class QueryDAOImpl implements QueryDAO {
                     rst.getString(3));
         }
         return null;
+    }
+
+    @Override
+    public void setSession(Session session) {
+
     }
 }

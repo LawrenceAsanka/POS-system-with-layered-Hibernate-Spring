@@ -9,6 +9,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.hibernate.Session;
+
 public class OrderDAOImpl implements OrderDAO {
 
     public String getLastOrderId() throws Exception {
@@ -44,22 +46,26 @@ public class OrderDAOImpl implements OrderDAO {
     }
 
     @Override
-    public boolean save(Order order) throws Exception {
+    public void save(Order order) throws Exception {
         try {
             return CrudUtil.execute("INSERT INTO `Order` VALUES (?,?,?)", order.getId(), order.getDate(), order.getCustomerId());
         } catch (SQLException throwables) {
             throwables.printStackTrace();
-            return false;
         }
     }
 
     @Override
-    public boolean update(Order order) throws Exception {
+    public void update(Order order) throws Exception {
         return CrudUtil.execute("UPDATE Order SET date=?, customerId=? WHERE id=?", order.getDate(), order.getCustomerId(), order.getId());
     }
 
     @Override
-    public boolean delete(String key) throws Exception {
+    public void delete(String key) throws Exception {
         return CrudUtil.execute("DELETE FROM Order WHERE id=?", key);
+    }
+
+    @Override
+    public void setSession(Session session) {
+
     }
 }

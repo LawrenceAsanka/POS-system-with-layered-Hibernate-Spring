@@ -1,61 +1,48 @@
 package dao.custom.impl;
 
-import dao.CrudUtil;
+import java.util.List;
+
+import org.hibernate.Session;
+
 import dao.custom.ItemDAO;
 import entity.Item;
 
-import java.sql.ResultSet;
-import java.util.ArrayList;
-import java.util.List;
-
 public class ItemDAOImpl implements ItemDAO {
 
-    public String getLastItemCode() throws Exception {
-        ResultSet rst = CrudUtil.execute("SELECT * FROM Item ORDER BY code DESC LIMIT 1");
-        if (!rst.next()) {
-            return null;
-        } else {
-            return rst.getString(1);
-        }
-    }
+  private Session session;
 
-    @Override
-    public List<Item> findAll() throws Exception {
-        ResultSet rst = CrudUtil.execute("SELECT * FROM Item");
-        List<Item> items = new ArrayList<>();
-        while (rst.next()) {
-            items.add(new Item(rst.getString(1),
-                    rst.getString(2),
-                    rst.getBigDecimal(3),
-                    rst.getInt(4)));
-        }
-        return items;
-    }
+  public String getLastItemCode() throws Exception {
+    return (String) session.createQuery("SELECT i.code FROM Item i ORDER BY i.code DESC").setMaxResults(1).list().get(0);
 
-    @Override
-    public Item find(String key) throws Exception {
-        ResultSet rst = CrudUtil.execute("SELECT * FROM Item WHERE code=?", key);
-        if (rst.next()) {
-            return new Item(rst.getString(1),
-                    rst.getString(2),
-                    rst.getBigDecimal(3),
-                    rst.getInt(4));
-        }
-        return null;
-    }
+  }
 
-    @Override
-    public boolean save(Item item) throws Exception {
-        return CrudUtil.execute("INSERT INTO Item VALUES (?,?,?,?)", item.getCode(), item.getDescription(), item.getUnitPrice(), item.getQtyOnHand());
-    }
+  @Override
+  public List<Item> findAll() throws Exception {
+    return session.createQuery("FROM entity.Iem", Item.class).list();
+  }
 
-    @Override
-    public boolean update(Item item) throws Exception {
-        return CrudUtil.execute("UPDATE Item SET description=?, unitPrice=?, qtyOnHand=? WHERE code=?", item.getDescription(), item.getUnitPrice(), item.getQtyOnHand(), item.getCode());
-    }
+  @Override
+  public Item find(String key) throws Exception {
+    return session.get(Item.class, key);
+  }
 
-    @Override
-    public boolean delete(String key) throws Exception {
-        return CrudUtil.execute("DELETE FROM Item WHERE code=?", key);
-    }
+  @Override
+  public void save(Item item) throws Exception {
+    session.save(item);
+  }
+
+  @Override
+  public void update(Item item) throws Exception {
+    session.update(item);
+  }
+
+  @Override
+  public void delete(String key) throws Exception {
+    session.delete(session.load(Item.class, key));
+  }
+
+  @Override
+  public void setSession(Session session) {
+    this.session = session;
+  }
 }

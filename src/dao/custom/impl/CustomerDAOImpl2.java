@@ -5,6 +5,8 @@ import entity.Customer;
 
 import java.util.List;
 
+import org.hibernate.Session;
+
 public class CustomerDAOImpl2 implements CustomerDAO {
 
     @Override
@@ -23,17 +25,19 @@ public class CustomerDAOImpl2 implements CustomerDAO {
     }
 
     @Override
-    public boolean save(Customer entity) {
-        return false;
+    public void save(Customer entity) {
     }
 
     @Override
-    public boolean update(Customer entity) {
-        return false;
+    public void update(Customer entity) {
     }
 
     @Override
-    public boolean delete(String key) {
-        return false;
+    public void delete(String key) {
+    }
+
+    @Override
+    public void setSession(Session session) {
+
     }
 }

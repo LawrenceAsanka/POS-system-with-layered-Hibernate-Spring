@@ -51,15 +51,15 @@ public class ItemBOImpl implements ItemBO {
         return items;
     }
 
-    public boolean saveItem(String code, String description, int qtyOnHand, double unitPrice) throws Exception {
+    public void saveItem(String code, String description, int qtyOnHand, double unitPrice) throws Exception {
         return itemDAO.save(new Item(code, description, BigDecimal.valueOf(unitPrice), qtyOnHand));
     }
 
-    public boolean deleteItem(String itemCode) throws Exception {
+    public void deleteItem(String itemCode) throws Exception {
         return itemDAO.delete(itemCode);
     }
 
-    public boolean updateItem(String description, int qtyOnHand, double unitPrice, String itemCode) throws Exception {
+    public void updateItem(String description, int qtyOnHand, double unitPrice, String itemCode) throws Exception {
         return itemDAO.update(new Item(itemCode, description,
                 BigDecimal.valueOf(unitPrice), qtyOnHand));
     }
