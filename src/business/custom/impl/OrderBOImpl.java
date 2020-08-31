@@ -78,7 +78,7 @@ public class OrderBOImpl implements OrderBO { // , Temp
     }
   }
 
-  public boolean placeOrder(OrderTM order, List<OrderDetailTM> orderDetails) throws Exception {
+  public void placeOrder(OrderTM order, List<OrderDetailTM> orderDetails) throws Exception {
     SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
     Session session = sessionFactory.openSession();
     orderDAO.setSession(session);
@@ -104,7 +104,6 @@ public class OrderBOImpl implements OrderBO { // , Temp
 
       }
       tx.commit();
-      return true;
     } catch (Throwable t) {
       tx.rollback();
       throw t;
