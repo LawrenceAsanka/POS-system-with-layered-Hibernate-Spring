@@ -5,6 +5,7 @@
  */
 package lk.ijse.dep.pos.controller;
 
+import lk.ijse.dep.pos.AppInitializer;
 import lk.ijse.dep.pos.business.BOFactory;
 import lk.ijse.dep.pos.business.BOType;
 import lk.ijse.dep.pos.business.custom.ItemBO;
@@ -34,11 +35,7 @@ import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
-/**
- * FXML Controller class
- *
- * @author ranjith-suranga
- */
+
 public class ManageItemFormController implements Initializable {
 
     public JFXTextField txtCode;
@@ -53,7 +50,7 @@ public class ManageItemFormController implements Initializable {
     @FXML
     private AnchorPane root;
 
-    private ItemBO itemBO = BOFactory.getInstance().getBO(BOType.ITEM);
+    private ItemBO itemBO = AppInitializer.getApplicationContext().getBean(ItemBO.class);
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {

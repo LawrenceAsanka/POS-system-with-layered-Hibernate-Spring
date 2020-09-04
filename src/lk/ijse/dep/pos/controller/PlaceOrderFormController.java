@@ -1,5 +1,6 @@
 package lk.ijse.dep.pos.controller;
 
+import lk.ijse.dep.pos.AppInitializer;
 import lk.ijse.dep.pos.business.BOFactory;
 import lk.ijse.dep.pos.business.BOType;
 import lk.ijse.dep.pos.business.custom.CustomerBO;
@@ -53,9 +54,10 @@ public class PlaceOrderFormController {
     public TableView<OrderDetailTM> tblOrderDetails;
     private boolean readOnly;
 
-    private OrderBO orderBO = BOFactory.getInstance().getBO(BOType.ORDER);
-    private ItemBO itemBO = BOFactory.getInstance().getBO(BOType.ITEM);
-    private CustomerBO customerBO = BOFactory.getInstance().getBO(BOType.CUSTOMER);
+    private OrderBO orderBO = AppInitializer.getApplicationContext().getBean(OrderBO.class);
+    private ItemBO itemBO = AppInitializer.getApplicationContext().getBean(ItemBO.class);
+    private CustomerBO customerBO = AppInitializer.getApplicationContext().getBean(CustomerBO.class);
+
 
     public void initialize() {
 
@@ -325,49 +327,5 @@ public class PlaceOrderFormController {
         }
     }
 
-    void initializeWithSearchOrderForm(String orderId) {
-        lblId.setText(orderId);
-        readOnly = true;
-        for (Order order : ordersDB) {
-            if (order.getId().equals(orderId)) {
-                lblDate.setText(order.getDate() + "");
-
-                // To select the customer
-                String customerId = order.getCustomerId();
-                for (CustomerTM customer : cmbCustomerId.getItems()) {
-                    if (customer.getId().equals(customerId)) {
-                        cmbCustomerId.getSelectionModel().select(customer);
-                        break;
-                    }
-                }
-
-                for (OrderDetail orderDetail : order.getOrderDetails()) {
-                    String description = null;
-                    for (ItemTM item : cmbItemCode.getItems()) {
-                        if (item.getCode().equals(orderDetail.getCode())) {
-                            description = item.getDescription();
-                            break;
-                        }
-                    }
-                    OrderDetailTM orderDetailTM = new OrderDetailTM(
-                            orderDetail.getCode(),
-                            description,
-                            orderDetail.getQty(),
-                            orderDetail.getUnitPrice(),
-                            orderDetail.getQty() * orderDetail.getUnitPrice(),
-                            null
-                    );
-                    tblOrderDetails.getItems().add(orderDetailTM);
-                    calculateTotal();
-                }
-
-                cmbCustomerId.setDisable(true);
-                cmbItemCode.setDisable(true);
-                btnSave.setDisable(true);
-                btnPlaceOrder.setVisible(false);
-                break;
-            }
-        }
-    }
 
 }
