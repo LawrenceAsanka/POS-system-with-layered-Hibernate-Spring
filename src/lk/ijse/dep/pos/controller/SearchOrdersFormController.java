@@ -1,7 +1,9 @@
 package lk.ijse.dep.pos.controller;
 
+import lk.ijse.dep.pos.AppInitializer;
 import lk.ijse.dep.pos.business.BOFactory;
 import lk.ijse.dep.pos.business.BOType;
+import lk.ijse.dep.pos.business.custom.CustomerBO;
 import lk.ijse.dep.pos.business.custom.OrderBO;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -28,7 +30,8 @@ public class SearchOrdersFormController {
     public TextField txtSearch;
     public TableView<OrderTM> tblOrders;
     List<OrderTM> orderArrayList = new ArrayList<>();
-    private final OrderBO orderBO = BOFactory.getInstance().getBO(BOType.ORDER);
+
+    private final OrderBO orderBO = AppInitializer.getApplicationContext().getBean(OrderBO.class);
 
     public void initialize() {
 

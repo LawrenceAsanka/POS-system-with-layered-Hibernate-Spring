@@ -5,6 +5,7 @@
  */
 package lk.ijse.dep.pos.controller;
 
+import lk.ijse.dep.pos.AppInitializer;
 import lk.ijse.dep.pos.business.BOFactory;
 import lk.ijse.dep.pos.business.BOType;
 import lk.ijse.dep.pos.business.custom.CustomerBO;
@@ -31,11 +32,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
-/**
- * FXML Controller class
- *
- * @author ranjith-suranga
- */
+
 public class ManageCustomerFormController implements Initializable {
 
     @FXML
@@ -54,7 +51,7 @@ public class ManageCustomerFormController implements Initializable {
     @FXML
     private TableView<CustomerTM> tblCustomers;
 
-    private CustomerBO customerBO = BOFactory.getInstance().getBO(BOType.CUSTOMER);
+    private CustomerBO customerBO = AppInitializer.getApplicationContext().getBean(CustomerBO.class);
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
