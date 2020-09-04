@@ -14,7 +14,9 @@ import lk.ijse.dep.pos.dao.custom.CustomerDAO;
 import lk.ijse.dep.pos.db.HibernateUtil;
 import lk.ijse.dep.pos.entity.Customer;
 import lk.ijse.dep.pos.util.CustomerTM;
+import org.springframework.stereotype.Component;
 
+@Component
 public class CustomerBOImpl implements CustomerBO {
 
 

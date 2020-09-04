@@ -20,7 +20,9 @@ import lk.ijse.dep.pos.entity.Order;
 import lk.ijse.dep.pos.entity.OrderDetail;
 import lk.ijse.dep.pos.util.OrderDetailTM;
 import lk.ijse.dep.pos.util.OrderTM;
+import org.springframework.stereotype.Component;
 
+@Component
 public class OrderBOImpl implements OrderBO { // , Temp
 
   private final OrderDAO orderDAO = DAOFactory.getInstance().getDAO(DAOType.ORDER);

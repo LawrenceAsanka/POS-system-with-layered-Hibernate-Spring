@@ -15,7 +15,9 @@ import lk.ijse.dep.pos.dao.custom.ItemDAO;
 import lk.ijse.dep.pos.db.HibernateUtil;
 import lk.ijse.dep.pos.entity.Item;
 import lk.ijse.dep.pos.util.ItemTM;
+import org.springframework.stereotype.Component;
 
+@Component
 public class ItemBOImpl implements ItemBO {
 
   // Dependency Declaration
