@@ -1,9 +1,6 @@
 package lk.ijse.dep.pos.controller;
 
 import lk.ijse.dep.pos.AppInitializer;
-import lk.ijse.dep.pos.business.BOFactory;
-import lk.ijse.dep.pos.business.BOType;
-import lk.ijse.dep.pos.business.custom.CustomerBO;
 import lk.ijse.dep.pos.business.custom.OrderBO;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
